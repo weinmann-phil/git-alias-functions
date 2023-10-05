@@ -38,11 +38,16 @@ function git_push_to_origin {
 
 function git_merge_branch_into_current {
     CURRENT_BRANCH=$(git branch)
-    read -p "You're on branch $CURRENT_BRANCH. Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE] || exit 1 ]]
+    read -p "You're on branch $CURRENT_BRANCH. Continue? (Y/N): " confirm && \ 
+        [[ $confirm == [yY] || $confirm == [yY][eE] || exit 1 ]]
     TARGET_BRANCH=$1
     TARGET_BRANCH=$(validate_branch_name $TARGET_BRANCH)
     echo "Merging $TARGET_BRANCH into $CURRENT_BRANCH..."
     git merge $TARGET_BRANCH
     echo "Deleting source branch $TARGET_BRANCH"
     git branch -d $TARGET_BRANCH
+}
+
+function git_initialize_repo {
+    validate_git_repository $1
 }

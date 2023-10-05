@@ -63,6 +63,22 @@ function validate_branch_name {
     return $INPUT
 }
 
+function validate_git_repository {
+    INPUT=$1
+    if [ -z "$1" ]; then
+        read -p "Provide a name for the git repository: " repository_name
+        INPUT=$repository_name
+    fi
+    case $INPUT in
+        .)
+            git init . --initial-branch=main
+            ;;
+        *)
+            git init $INPUT --initial-branch=main
+            ;;
+    esac
+}
+
 function choose_branch_prefix {
     INPUT=$1
     if [ "/" == *"$1"* ]; then
